@@ -72,7 +72,14 @@ class Ydk(object):
                     "subjectId": "1001637746095542004980000000001",
                     "signleSelect": {
                         "fillContent": "",
-                        "beSelectValue": "1"
+                        "beSelectValue": "2"
+                    }
+                }, {
+                    "subjectType": "signleSelect",
+                    "subjectId": "1001638346284708001930000000001",
+                    "signleSelect": {
+                        "fillContent": "",
+                        "beSelectValue": "flag1638346253991"
                     }
                 }
             ]
@@ -104,6 +111,8 @@ class Ydk(object):
                     "latitude": self.latitude,
                     "longitude": self.longitude,
                     "province": self.config["province"],
+                    "deviationDistance": 281115,
+                    "locationRangeId": "1001638329616882001070000000001",
                     "city":self.config["city"],
                     "area":self.config["area"],
                     "address":self.config["address"]
