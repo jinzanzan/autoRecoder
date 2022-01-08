@@ -134,7 +134,8 @@ class Ydk(object):
         self.struct_ques()
         try:
             tdtime = datetime.datetime.now()
-            hour = tdtime.hour()
+            hour = int(tdtime.hour())
+            print(hour)
             if hour >= 7 and hour <= 22:
                 self.getDetailUrl()
                 self.getDetail()
