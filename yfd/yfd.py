@@ -128,7 +128,6 @@ class Ydk(object):
         if "latitude" not in self.config:
             self.get_geo()
         self.struct_ques()
-        print(self.ques_list)
         try:
             tdtime = datetime.datetime.now()
             if tdtime.hour >= 0 and tdtime.hour < 15:
