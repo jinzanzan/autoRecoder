@@ -7,10 +7,13 @@
 @License : Apache License Version 2.0, January 2004
 @Desc    : None
 '''
+from abc import abstractproperty
 import requests
 import geocoder
 import json
 import datetime
+from config import *
+from math import radians, cos, sin, asin, sqrt
 
 
 class Ydk(object):
@@ -29,7 +32,14 @@ class Ydk(object):
         }
         self.config = config
         self.secret = config["secret"]
-        self.address = config["address"]
+        self.address = addr_info.get("address") if addr_info.get(
+            "address") else config["address"]
+        self.province = addr_info.get("province") if addr_info.get(
+            "province") else self.config["province"]
+        self.city = addr_info.get("city") if addr_info.get(
+            "city") else self.config["city"]
+        self.area = addr_info.get("area") if addr_info.get(
+            "area") else self.config["area"]
         self.get_geo()
 
     def sendmess(self, title):
@@ -37,6 +47,17 @@ class Ydk(object):
             "https://sctapi.ftqq.com/{}.send".format(self.secret), data={"title": title})
         result = json.loads(r.text)
         return result
+
+    def haversine(lon2, lat2):
+        lon1 = 112.919075
+        lat1 = 28.221294
+        lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+        dlon = lon2-lon1
+        dlat = lat2-lat2
+        a = sin(dlat/2)**2 + cos(lat1)*cos(lat2)*sin(dlon/2)**2
+        c = 2*asin(sqrt(a))
+        r = 6371
+        return int(c*r*1000)
 
     def getDetailUrl(self):
         r = requests.get(self.index, headers=self.headers)
@@ -64,40 +85,17 @@ class Ydk(object):
             self.longitude = 112.919075
 
     def struct_ques(self):
-        if "湖南工商大学" not in self.address:
-            out = [
-                {
+        out = []
+        for key in id_list.keys():
+            if pzinfo[key]:
+                out.append({
                     "subjectType": "signleSelect",
-                    "subjectId": "1001637746058450004920000000001",
+                    "subjectId": id_list[key],
                     "signleSelect": {
-                        "fillContent": "",
-                        "beSelectValue": "2"
+                        "fillContent": fillinfo[key],
+                        "beSelectValue": pzinfo[key]
                     }
-                }, {
-                    "subjectType": "signleSelect",
-                    "subjectId": "1001637746095542004980000000001",
-                    "signleSelect": {
-                        "fillContent": "",
-                        "beSelectValue": "2"
-                    }
-                }, {
-                    "subjectType": "signleSelect",
-                    "subjectId": "1001638346284708001930000000001",
-                    "signleSelect": {
-                        "fillContent": "",
-                        "beSelectValue": "flag1638346253991"
-                    }
-                }
-            ]
-        else:
-            out = [{
-                "subjectType": "signleSelect",
-                "subjectId": "1001637746058450004920000000001",
-                "signleSelect": {
-                    "fillContent": "",
-                    "beSelectValue": "1"
-                }
-            }]
+                })
         ques_list = [
             {
                 "subjectType": "multiSelect",
@@ -116,12 +114,12 @@ class Ydk(object):
                 "location": {
                     "latitude": self.latitude,
                     "longitude": self.longitude,
-                    "province": self.config["province"],
-                    "deviationDistance": 281115,
+                    "province": self.province,
+                    "deviationDistance": self.haversine(self.longitude, self.latitude),
                     "locationRangeId": "1001638329616882001070000000001",
-                    "city":self.config["city"],
-                    "area":self.config["area"],
-                    "address":self.config["address"]
+                    "city": self.city,
+                    "area": self.area,
+                    "address": self.address
                 }
             }
         ]
@@ -136,6 +134,7 @@ class Ydk(object):
             if tdtime.hour >= 0 and tdtime.hour < 15:
                 self.getDetailUrl()
                 self.getDetail()
+                print(self.ques_list)
                 if self.had_fill is False:
                     self.getDetailUrl()
                     data = {

@@ -18,13 +18,7 @@ if __name__ == "__main__":
         longitude = os.environ["longitude"]
     config = {
         "accessToken": os.environ["accessToken"],
-        "secret": os.environ["secret"],
-        "latitude": latitude,
-        "longitude": longitude,
-        "province": os.environ["province"],
-        "city": os.environ["city"],
-        "area": os.environ["area"],
-        "address": os.environ["address"]
+        "secret": os.environ["secret"]
     }
     dk = Ydk(config)
     dk.submit()
