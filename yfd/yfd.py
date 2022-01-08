@@ -52,7 +52,7 @@ class Ydk(object):
             result["data"]["questionnairePublishFillVo"]["fillStartTime"])
         self.end_time = int(
             result["data"]["questionnairePublishFillVo"]["fillEndTime"])
-        self.had_fill = result["data"]["questionnairePublishFillVo"]["handFill"]
+        self.had_fill = result["data"]["questionnairePublishFillVo"]["hadFill"]
         print(self.had_fill)
         print(self.start_time, self.end_time)
 
