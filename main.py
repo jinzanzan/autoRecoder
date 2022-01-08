@@ -8,29 +8,23 @@
 @Desc    : None
 '''
 import os
+from yfd.yfd import Ydk
 
 if __name__ == "__main__":
     latitude = ""
     longitude = ""
-    mode = "debug"
-    if mode != "debug":
-        from yfd.yfd import Ydk
-        if "latitude" in os.environ:
-            latitude = os.environ["latitude"]
-            longitude = os.environ["longitude"]
-        config = {
-            "accessToken": os.environ["accessToken"],
-            "secret": os.environ["secret"],
-            "latitude": latitude,
-            "longitude": longitude,
-            "province": os.environ["province"],
-            "city": os.environ["city"],
-            "area": os.environ["area"],
-            "address": os.environ["address"]
-        }
-    else:
-        from yfd.cdb import Ydk
-        config = {}
+    if "latitude" in os.environ:
+        latitude = os.environ["latitude"]
+        longitude = os.environ["longitude"]
+    config = {
+        "accessToken": os.environ["accessToken"],
+        "secret": os.environ["secret"],
+        "latitude": latitude,
+        "longitude": longitude,
+        "province": os.environ["province"],
+        "city": os.environ["city"],
+        "area": os.environ["area"],
+        "address": os.environ["address"]
+    }
     dk = Ydk(config)
-    dk.create_table()
-    # dk.submit()
+    dk.submit()
