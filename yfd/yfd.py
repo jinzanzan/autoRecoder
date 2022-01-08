@@ -132,7 +132,6 @@ class Ydk(object):
             if tdtime.hour >= 0 and tdtime.hour < 15:
                 self.getDetailUrl()
                 self.getDetail()
-                print(self.ques_list)
                 if self.had_fill is False:
                     self.getDetailUrl()
                     data = {
