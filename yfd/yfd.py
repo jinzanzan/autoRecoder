@@ -10,7 +10,6 @@
 import requests
 import geocoder
 import json
-import datetime
 import time
 
 
@@ -133,8 +132,6 @@ class Ydk(object):
             self.get_geo()
         self.struct_ques()
         try:
-            today = datetime.date.today()
-            tdstr = today.strftime("%y%m%d")
             self.getDetailUrl()
             self.getDetail()
             if self.had_fill is False:
@@ -149,7 +146,6 @@ class Ydk(object):
                         self.dk_url, headers=self.headers, json=data)
                     result = json.loads(r.text)
                     if result["code"] == 200:
-                        self.add(tdstr)
                         print("打卡成功", result)
                         if self.secret:
                             self.sendmess("打卡成功")
@@ -159,6 +155,8 @@ class Ydk(object):
                             self.sendmess("打卡失败")
                 else:
                     print("还没到时间哦！")
+            else:
+                print("已经打过卡了")
         except Exception as e:
             print("程序出错", e)
             if self.secret:
