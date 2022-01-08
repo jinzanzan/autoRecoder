@@ -10,7 +10,6 @@
 import requests
 import geocoder
 import json
-import time
 import datetime
 
 
@@ -134,7 +133,7 @@ class Ydk(object):
         self.struct_ques()
         try:
             tdtime = datetime.datetime.now()
-            if tdtime.hour >= 8 and tdtime.hour < 23:
+            if tdtime.hour >= 0 and tdtime.hour < 15:
                 self.getDetailUrl()
                 self.getDetail()
                 if self.had_fill is False:
@@ -143,21 +142,17 @@ class Ydk(object):
                         "answerInfoList": self.ques_list,
                         "questionnairePublishEntityId": self.ques_id,
                     }
-                    now = int(time.time()*1000)
-                    if self.start_time <= now and self.end_time >= now:
-                        r = requests.post(
-                            self.dk_url, headers=self.headers, json=data)
-                        result = json.loads(r.text)
-                        if result["code"] == 200:
-                            print("打卡成功", result)
-                            if self.secret:
-                                self.sendmess("打卡成功")
-                        else:
-                            print("打卡失败", result)
-                            if self.secret:
-                                self.sendmess("打卡失败")
+                    r = requests.post(
+                        self.dk_url, headers=self.headers, json=data)
+                    result = json.loads(r.text)
+                    if result["code"] == 200:
+                        print("打卡成功", result)
+                        if self.secret:
+                            self.sendmess("打卡成功")
                     else:
-                        print("还没到时间哦！")
+                        print("打卡失败", result)
+                        if self.secret:
+                            self.sendmess("打卡失败")
                 else:
                     print("已经打过卡了")
             else:
