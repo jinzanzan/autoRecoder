@@ -38,3 +38,7 @@ jobs:
           city: ${{ secrets.CITY }}
           area: ${{ secrets.AREA }}
           address: ${{ secrets.ADDRESS }}
+          inschool: ${{ secrets.INSCHOOL }}
+          isdes: ${{ secrets.ISDES }}
+          reason: ${{ secrets.REASON }}
+          reasondes: ${{ secrets.REASONDES }}

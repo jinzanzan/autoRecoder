@@ -11,14 +11,27 @@ import os
 from yfd.yfd import Ydk
 
 if __name__ == "__main__":
-    latitude = ""
-    longitude = ""
-    if "latitude" in os.environ:
-        latitude = os.environ["latitude"]
-        longitude = os.environ["longitude"]
     config = {
         "accessToken": os.environ["accessToken"],
-        "secret": os.environ["secret"]
+        "secret": os.environ["secret"],
+        "province": os.environ["province"],
+        "city": os.environ["city"],
+        "area": os.environ["area"],
+        "address": os.environ["address"],
+        "inschool": os.environ["inschool"],
+        "isdes": os.environ["isdes"],
+        "reason": os.environ["reason"],
+        "reasondes": os.environ["reasondes"]
     }
-    dk = Ydk(config)
+    pzinfo = {
+        "inschool": config["inschool"],
+        "isdes": config["isdes"],
+        "reason": config["reason"],
+    }
+    fillinfo = {
+        "inschool": "",
+        "isdes": "",
+        "reason": config["reasondes"]
+    }
+    dk = Ydk(config, pzinfo, fillinfo)
     dk.submit()

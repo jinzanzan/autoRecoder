@@ -17,7 +17,7 @@ from math import radians, cos, sin, asin, sqrt
 
 
 class Ydk(object):
-    def __init__(self, config) -> None:
+    def __init__(self, config, pzinfo, fillinfo) -> None:
         super().__init__()
         self.index = "https://yfd.ly-sky.com/ly-pd-mb/form/api/healthCheckIn/client/stu/index"
         self.dk_url = "https://yfd.ly-sky.com/ly-pd-mb/form/api/answerSheet/saveNormal"
@@ -36,8 +36,8 @@ class Ydk(object):
         self.province = self.config["province"]
         self.city = self.config["city"]
         self.area = self.config["area"]
-        self.latitude = self.config["latitude"]
-        self.longitude = self.config["longitude"]
+        self.pzinfo = pzinfo
+        self.fillinfo = fillinfo
         self.get_geo()
 
     def sendmess(self, title):
@@ -79,22 +79,19 @@ class Ydk(object):
             g = geocoder.arcgis(self.address)
             self.latitude, self.longitude = g.latlng
         except Exception as e:
-            if self.latitude:
-                pass
-            else:
-                self.latitude = 28.221294
-                self.longitude = 112.919075
+            self.latitude = 28.221294
+            self.longitude = 112.919075
 
     def struct_ques(self):
         out = []
         for key in id_list.keys():
-            if pzinfo[key]:
+            if self.pzinfo[key]:
                 out.append({
                     "subjectType": "signleSelect",
                     "subjectId": id_list[key],
                     "signleSelect": {
-                        "fillContent": fillinfo[key],
-                        "beSelectValue": reason_list[pzinfo[key]] if key == "reason" else pzinfo[key]
+                        "fillContent": self.fillinfo[key],
+                        "beSelectValue": reason_list[self.pzinfo[key]] if key == "reason" else self.pzinfo[key]
                     }
                 })
         ques_list = [
