@@ -11,6 +11,7 @@ import requests
 import geocoder
 import json
 import time
+import datetime
 
 
 class Ydk(object):
@@ -132,31 +133,36 @@ class Ydk(object):
             self.get_geo()
         self.struct_ques()
         try:
-            self.getDetailUrl()
-            self.getDetail()
-            if self.had_fill is False:
+            tdtime = datetime.datetime.now()
+            hour = tdtime.hour()
+            if hour >= 7 and hour <= 22:
                 self.getDetailUrl()
-                data = {
-                    "answerInfoList": self.ques_list,
-                    "questionnairePublishEntityId": self.ques_id,
-                }
-                now = int(time.time()*1000)
-                if self.start_time <= now and self.end_time >= now:
-                    r = requests.post(
-                        self.dk_url, headers=self.headers, json=data)
-                    result = json.loads(r.text)
-                    if result["code"] == 200:
-                        print("打卡成功", result)
-                        if self.secret:
-                            self.sendmess("打卡成功")
+                self.getDetail()
+                if self.had_fill is False:
+                    self.getDetailUrl()
+                    data = {
+                        "answerInfoList": self.ques_list,
+                        "questionnairePublishEntityId": self.ques_id,
+                    }
+                    now = int(time.time()*1000)
+                    if self.start_time <= now and self.end_time >= now:
+                        r = requests.post(
+                            self.dk_url, headers=self.headers, json=data)
+                        result = json.loads(r.text)
+                        if result["code"] == 200:
+                            print("打卡成功", result)
+                            if self.secret:
+                                self.sendmess("打卡成功")
+                        else:
+                            print("打卡失败", result)
+                            if self.secret:
+                                self.sendmess("打卡失败")
                     else:
-                        print("打卡失败", result)
-                        if self.secret:
-                            self.sendmess("打卡失败")
+                        print("还没到时间哦！")
                 else:
-                    print("还没到时间哦！")
+                    print("已经打过卡了")
             else:
-                print("已经打过卡了")
+                print("休息时间")
         except Exception as e:
             print("程序出错", e)
             if self.secret:
