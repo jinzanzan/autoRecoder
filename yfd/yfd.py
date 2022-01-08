@@ -10,7 +10,6 @@
 import requests
 import geocoder
 import json
-import sqlite3
 
 
 class Ydk(object):
@@ -52,7 +51,7 @@ class Ydk(object):
         self.start_time = int(
             result["data"]["questionnairePublishFillVo"]["fillStartTime"])
         self.end_time = int(
-            result["data"]["questionnairePublishFillVo"]["fillEndTimeTime"])
+            result["data"]["questionnairePublishFillVo"]["fillEndTime"])
         self.had_fill = result["data"]["questionnairePublishFillVo"]["handFill"]
         print(self.had_fill)
         print(self.start_time, self.end_time)
