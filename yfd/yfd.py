@@ -40,6 +40,8 @@ class Ydk(object):
             "city") else self.config["city"]
         self.area = addr_info.get("area") if addr_info.get(
             "area") else self.config["area"]
+        self.latitude = addr_info["latitude"] if addr_info["latitude"] else self.config["latitude"]
+        self.longitude = addr_info["longitude"] if addr_info["longitude"] else self.config["longitude"]
         self.get_geo()
 
     def sendmess(self, title):
@@ -81,8 +83,11 @@ class Ydk(object):
             g = geocoder.arcgis(self.address)
             self.latitude, self.longitude = g.latlng
         except Exception as e:
-            self.latitude = 28.221294
-            self.longitude = 112.919075
+            if self.latitude:
+                pass
+            else:
+                self.latitude = 28.221294
+                self.longitude = 112.919075
 
     def struct_ques(self):
         out = []
