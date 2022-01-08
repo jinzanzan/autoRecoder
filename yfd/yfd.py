@@ -11,7 +11,6 @@ import requests
 import geocoder
 import json
 import datetime
-import sqlite3
 import time
 
 
@@ -33,36 +32,6 @@ class Ydk(object):
         self.secret = config["secret"]
         self.address = config["address"]
         self.get_geo()
-        self.conn = sqlite3.connect('dk.db')
-        self.recode = {}
-
-    def create_table(self):
-        c = self.conn.cursor()
-        c.execute("Create table if not exists dk (date text, status text)")
-        c.close()
-
-    def query(self, timestr):
-        c = self.conn.cursor()
-        c.execute("select * from dk where date='"+timestr+"'")
-        result = []
-        res = c.fetchall()
-        c.close()
-        if len(res):
-            for data in res:
-                temp = {}
-                temp["date"] = data[0]
-                temp["status"] = data[1]
-                result.append(temp)
-        return result
-
-    def add(self, timestr):
-        res = self.query(timestr)
-        if len(res) == 0:
-            c = self.conn.cursor()
-            c.execute("Insert into dk values('" +
-                      timestr+"', 'True')")
-            self.conn.commit()
-            c.close()
 
     def sendmess(self, title):
         r = requests.post(
@@ -166,36 +135,30 @@ class Ydk(object):
         try:
             today = datetime.date.today()
             tdstr = today.strftime("%y%m%d")
-            data_res = self.query(tdstr)
-            if len(data_res) == 0:
+            self.getDetailUrl()
+            self.getDetail()
+            if self.had_fill is False:
                 self.getDetailUrl()
-                self.getDetail()
-                if self.had_fill is False:
-                    self.getDetailUrl()
-                    data = {
-                        "answerInfoList": self.ques_list,
-                        "questionnairePublishEntityId": self.ques_id,
-                    }
-                    now = int(time.time()*1000)
-                    if self.start_time <= now and self.end_time >= now:
-                        r = requests.post(
-                            self.dk_url, headers=self.headers, json=data)
-                        result = json.loads(r.text)
-                        if result["code"] == 200:
-                            self.add(tdstr)
-                            print("打卡成功", result)
-                            if self.secret:
-                                self.sendmess("打卡成功")
-                        else:
-                            print("打卡失败", result)
-                            if self.secret:
-                                self.sendmess("打卡失败")
+                data = {
+                    "answerInfoList": self.ques_list,
+                    "questionnairePublishEntityId": self.ques_id,
+                }
+                now = int(time.time()*1000)
+                if self.start_time <= now and self.end_time >= now:
+                    r = requests.post(
+                        self.dk_url, headers=self.headers, json=data)
+                    result = json.loads(r.text)
+                    if result["code"] == 200:
+                        self.add(tdstr)
+                        print("打卡成功", result)
+                        if self.secret:
+                            self.sendmess("打卡成功")
                     else:
-                        print("还没到时间哦！")
+                        print("打卡失败", result)
+                        if self.secret:
+                            self.sendmess("打卡失败")
                 else:
-                    print("今天已打卡")
-            else:
-                print("今天已经打卡，没有查询任何信息")
+                    print("还没到时间哦！")
         except Exception as e:
             print("程序出错", e)
             if self.secret:
