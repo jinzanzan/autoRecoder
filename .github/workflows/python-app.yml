@@ -32,11 +32,6 @@ jobs:
         env:
           accessToken: ${{ secrets.ACCESSTOKEN }}
           secret: ${{ secrets.SECRET }}
-          latitude: ${{ secrets.LATITUDE }}
-          longitude: ${{ secrets.LONGITUDE }}
-          province: ${{ secrets.PROVINCE }}
-          city: ${{ secrets.CITY }}
-          area: ${{ secrets.AREA }}
           address: ${{ secrets.ADDRESS }}
           inschool: ${{ secrets.INSCHOOL }}
           isdes: ${{ secrets.ISDES }}

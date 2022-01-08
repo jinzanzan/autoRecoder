@@ -32,10 +32,11 @@ class Ydk(object):
         }
         self.config = config
         self.secret = config["secret"]
-        self.address = config["address"]
-        self.province = self.config["province"]
-        self.city = self.config["city"]
-        self.area = self.config["area"]
+        self.addr_list = config["address"].split("&")
+        self.address = "".join(self.addr_list)
+        self.province = self.addr_list[0]
+        self.city = self.addr_list[1]
+        self.area = self.addr_list[2]
         self.pzinfo = pzinfo
         self.fillinfo = fillinfo
         self.get_geo()

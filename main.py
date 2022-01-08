@@ -14,9 +14,6 @@ if __name__ == "__main__":
     config = {
         "accessToken": os.environ["accessToken"],
         "secret": os.environ["secret"],
-        "province": os.environ["province"],
-        "city": os.environ["city"],
-        "area": os.environ["area"],
         "address": os.environ["address"],
         "inschool": os.environ["inschool"],
         "isdes": os.environ["isdes"],

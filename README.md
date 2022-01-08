@@ -4,10 +4,8 @@
 
 - 使用抓包软件获取`accessToken`
 - 到[server 酱](https://sct.ftqq.com/)去注册并获取一个 SendKey,然后写入 github 关键字为`secret`
-- 写入省份`province`：湖北省
-- 写入城市`city`: 武汉市
-- 写入区`area`: 武昌区
-- 写入地址信息`address`：湖北省武汉市武昌区武汉大学
+- 写入地址信息`address`：省份&城市&区&具体位置
+  **省份，城市，区，和具体位置一定要用&符号隔开**
 - 写入是否在学校`inschool`:
   value: 1. 在学校 2. 不在学校
 - 写入请假状态`isdes`:
