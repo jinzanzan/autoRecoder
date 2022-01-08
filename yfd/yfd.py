@@ -10,6 +10,7 @@
 import requests
 import geocoder
 import json
+import sqlite3
 
 
 class Ydk(object):
@@ -48,6 +49,13 @@ class Ydk(object):
         r = requests.get(self.ques_url, headers=self.headers)
         result = json.loads(r.text)
         self.ques_id = result["data"]["questionnairePublishFillVo"]["questionnairePublishEntityId"]
+        self.start_time = int(
+            result["data"]["questionnairePublishFillVo"]["fillStartTime"])
+        self.end_time = int(
+            result["data"]["questionnairePublishFillVo"]["fillEndTimeTime"])
+        self.had_fill = result["data"]["questionnairePublishFillVo"]["handFill"]
+        print(self.had_fill)
+        print(self.start_time, self.end_time)
 
     def get_geo(self):
         try:
@@ -133,17 +141,18 @@ class Ydk(object):
                 "answerInfoList": self.ques_list,
                 "questionnairePublishEntityId": self.ques_id,
             }
-            r = requests.post(
-                self.dk_url, headers=self.headers, json=data)
-            result = json.loads(r.text)
-            if result["code"] == 200:
-                print("打卡成功")
-                if self.secret:
-                    self.sendmess("打卡成功")
-            else:
-                print("打卡失败")
-                if self.secret:
-                    self.sendmess("打卡失败")
+            print(data)
+            # r = requests.post(
+            #     self.dk_url, headers=self.headers, json=data)
+            # result = json.loads(r.text)
+            # if result["code"] == 200:
+            #     print("打卡成功", result)
+            #     if self.secret:
+            #         self.sendmess("打卡成功")
+            # else:
+            #     print("打卡失败", result)
+            #     if self.secret:
+            #         self.sendmess("打卡失败")
         except Exception as e:
             print("程序出错", e)
             if self.secret:
