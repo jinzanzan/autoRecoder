@@ -42,11 +42,3 @@ reason_list = {
     "3": "flag1638346253991",
     "4": "flag1638346272310"
 }
-addr_info = {
-    "latitude": 30.535389,
-    "longitude": 114.43477,
-    "province": "湖北省",
-    "city": "武汉市",
-    "area": "洪山区",
-    "address": "湖北省武汉市洪山区锦绣龙城隧道"
-}

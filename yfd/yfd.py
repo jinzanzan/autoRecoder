@@ -32,16 +32,12 @@ class Ydk(object):
         }
         self.config = config
         self.secret = config["secret"]
-        self.address = addr_info.get("address") if addr_info.get(
-            "address") else config["address"]
-        self.province = addr_info.get("province") if addr_info.get(
-            "province") else self.config["province"]
-        self.city = addr_info.get("city") if addr_info.get(
-            "city") else self.config["city"]
-        self.area = addr_info.get("area") if addr_info.get(
-            "area") else self.config["area"]
-        self.latitude = addr_info["latitude"] if addr_info["latitude"] else self.config["latitude"]
-        self.longitude = addr_info["longitude"] if addr_info["longitude"] else self.config["longitude"]
+        self.address = config["address"]
+        self.province = self.config["province"]
+        self.city = self.config["city"]
+        self.area = self.config["area"]
+        self.latitude = self.config["latitude"]
+        self.longitude = self.config["longitude"]
         self.get_geo()
 
     def sendmess(self, title):
