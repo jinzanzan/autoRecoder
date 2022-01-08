@@ -12,7 +12,7 @@ import requests
 import geocoder
 import json
 import datetime
-from config import *
+from yfd.config import *
 from math import radians, cos, sin, asin, sqrt
 
 
