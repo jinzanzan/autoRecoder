@@ -85,7 +85,7 @@ class Ydk(object):
     def struct_ques(self):
         out = []
         for key in id_list.keys():
-            if self.pzinfo[key]:
+            if self.pzinfo[key] != "0":
                 out.append({
                     "subjectType": "signleSelect",
                     "subjectId": id_list[key],
