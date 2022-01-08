@@ -98,7 +98,7 @@ class Ydk(object):
                     "subjectId": id_list[key],
                     "signleSelect": {
                         "fillContent": fillinfo[key],
-                        "beSelectValue": pzinfo[key]
+                        "beSelectValue": reason_list[pzinfo[key]] if key == "reason" else pzinfo[key]
                     }
                 })
         ques_list = [
