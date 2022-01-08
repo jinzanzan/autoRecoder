@@ -48,7 +48,7 @@ class Ydk(object):
         result = json.loads(r.text)
         return result
 
-    def haversine(lon2, lat2):
+    def haversine(self, lon2, lat2):
         lon1 = 112.919075
         lat1 = 28.221294
         lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
