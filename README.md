@@ -34,6 +34,6 @@
 #### github action 配置
 
 - fork 本项目
-- 在自己的 repo 下 Settings/Screts 中设置`accessToken`, `secret`, `latitude`, `longitude`, `province`, `city`, `area` 和 `address`。具体写法上面有样例
+- 在自己的 repo 下 Settings/Screts 中设置`accessToken`, `secret`, `address`, `inschool`, `isdes`, `reason` 和 `reasondes`。具体写法上面有样例
 - 【可选】如果需要微信通知，可以配置 FT_SCKEY,为[ftqq 微信推送服务](http://sc.ftqq.com/?c=code)中的 sckey
 - fork 的项目默认是关闭的，需要手动点击 repo 页的 actions 以 enable
